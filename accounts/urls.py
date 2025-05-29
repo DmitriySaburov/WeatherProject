@@ -4,8 +4,6 @@ from . import views
 
 
 
-app_name = "weather"
-
 urlpatterns = [
-    path("", views.index, name="weather"),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
 ]

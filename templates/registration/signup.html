@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} Sign Up {% endblock %}
+{% block content %}
+    <h2> Sign Up </h2>
+
+    {% if form.errors %}
+        <div style="display: table; margin: 0 auto; text-align: left;">
+            {% for key, value in form.errors.items %}
+                <strong>{{ value }}</strong>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="submit" value="Sign Up"></p>
+    </form>
+    <a href="/">Вернуться на главную</a>
+{% endblock %}
