@@ -2,7 +2,7 @@ import json
 
 from django import forms
 
-from .open_weather_map import get_city_info
+from .open_weather_map import get_temp
 
 
 
@@ -22,7 +22,7 @@ class CityForm(forms.Form):
     def clean_city_name(self):
         city_name = self.cleaned_data["city_name"]
         # пробуем получить информацию о городе у API openweathermap
-        info = get_city_info(city_name)
+        info = get_temp(city_name)
         # добавляем info к названию города
         if info:
             return (city_name, info)

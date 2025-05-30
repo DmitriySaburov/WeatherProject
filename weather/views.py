@@ -1,10 +1,10 @@
 import requests
 import json
+from pprint import pprint
 
 from django.shortcuts import render
 
 from .forms import CityForm
-from .open_weather_map import get_temperature
 
 
 
@@ -15,11 +15,9 @@ def index(request):
             cd = form.cleaned_data["city_name"]
             # здесь получить температуру по координатам
             city_name, info = cd
-            lat = info[0]["lat"]
-            lon = info[0]["lon"]
-            print(lat, lon, type(lat))
-            temp_info = get_temperature(lat, lon)
-            results = f"{city_name}-----{info}-----{temp_info}"
+            print(type(info))
+            pprint(info)
+            results = info
         else:
             city_name = None
             results = "ошибка при поиске города"

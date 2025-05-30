@@ -12,7 +12,13 @@
             </form>
         </div>
         <div id="weather">
-            <p>{{ results }}</p>
+            {% if results %}
+                {% for key, value in results.items %}
+                    <p>{{ key }} --- {{ value }}</p>
+                {% endfor %}
+            {% endif %}
+            
+                
         </div>
     </div>
 {% endblock content %}
