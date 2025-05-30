@@ -3,6 +3,17 @@
 {% block title %}Погода в городе{% endblock title %}
 
 {% block content %}
-    <p>Погода в городе, тут будет поиск города и отображение температуры</p>
+    <div id="main">
+        <div id="search">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Показать погоду" class="btn btn-primary mb-3 btn-lg">
+            </form>
+        </div>
+        <div id="weather">
+            <p>{{ results }}</p>
+        </div>
+    </div>
 {% endblock content %}
     
