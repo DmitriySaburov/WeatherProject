@@ -4,7 +4,7 @@ import json
 from django.shortcuts import render
 
 from .forms import CityForm
-from .open_weather_map import api_key
+from .open_weather_map import get_temperature
 
 
 
@@ -12,10 +12,14 @@ def index(request):
     if request.method == "POST":
         form = CityForm(request.POST)
         if form.is_valid():
-            city_name = form.cleaned_data["city_name"]
+            cd = form.cleaned_data["city_name"]
             # здесь получить температуру по координатам
-            print(city_name)
-            results = "всё хорошо"
+            city_name, info = cd
+            lat = info[0]["lat"]
+            lon = info[0]["lon"]
+            print(lat, lon, type(lat))
+            temp_info = get_temperature(lat, lon)
+            results = f"{city_name}-----{info}-----{temp_info}"
         else:
             city_name = None
             results = "ошибка при поиске города"

@@ -21,8 +21,10 @@ class CityForm(forms.Form):
 
     def clean_city_name(self):
         city_name = self.cleaned_data["city_name"]
+        # пробуем получить информацию о городе у API openweathermap
         info = get_city_info(city_name)
-        # достать данные из info
-        lat = 0
-        lon = 0
-        return (city_name, (lat, lon))
+        # добавляем info к названию города
+        if info:
+            return (city_name, info)
+        else:
+            raise forms.ValidationError("Не удалось получить данные по названию города")
