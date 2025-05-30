@@ -12,14 +12,52 @@
             </form>
         </div>
         <div id="weather">
-            {% if results %}
-                {% for key, value in results.items %}
-                    <p>{{ key }} --- {{ value }}</p>
-                {% endfor %}
+            {% if city_name %}
+                <p>Погода в городе <strong>{{ city_name }}</strong>:</p>
             {% endif %}
             
-                
+            <!-- погода сейчас -->
+            {% if temp_now %}
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ temp_now.dt|date:"d.m.Y H:i" }}</h5>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://openweathermap.org/img/w/{{ temp_now.icon }}.png" alt="Temperature Icon" class="img-fluid rounded-start" style="width: 100px; height: 100px;">
+                                    <span class="ms-3 fs-3">{{ temp_now.temp }}°C</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>Нет результатов</p>
+            {% endif %}
+        </div>
+
+        <!-- прогноз погоды -->
+        <div id="forecast" style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
+            {% if temp_forecast %}
+                <div class="container mt-2">   
+                    <div class="row">     
+                        {% for item in temp_forecast %}
+                            <div style="width: 12.5%; padding: 0.5rem;">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p class="card-title">{{ item.dt|date:"d.m.Y H:i" }}</p>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://openweathermap.org/img/w/{{ item.icon }}.png" alt="Temperature Icon" class="img-fluid rounded-start" style="width: 50px; height: 50px;">
+                                            <span class="ms fs">{{ item.temp }}°C</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
-    

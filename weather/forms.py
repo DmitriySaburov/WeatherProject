@@ -19,12 +19,17 @@ class CityForm(forms.Form):
         )
     )
 
-    def clean_city_name(self):
+    def clean_city_name(self) -> tuple|None:
         city_name = self.cleaned_data["city_name"]
-        # пробуем получить информацию о городе у API openweathermap
-        info = get_temp(city_name)
-        # добавляем info к названию города
-        if info:
-            return (city_name, info)
+
+        # пробуем получить информацию о температуре
+        temp_now = get_temp(city_name)
+        temp_forecast = get_temp(city_name, forecast=True)
+        
+        # если удалось получить информацию о погоде, то передаем данные о погоде вместе с названием города
+        if temp_now and temp_forecast:
+            # берем название города из данных о температуре
+            city_name = temp_now["name"]
+            return (city_name, temp_now, temp_forecast)
         else:
             raise forms.ValidationError("Не удалось получить данные по названию города")
