@@ -9,7 +9,7 @@ class City(models.Model):
         verbose_name="Город"
     )
     search_count = models.BigIntegerField(
-        default=0,
+        default=1,
         verbose_name="Кол-во запросов"
     )
 
@@ -49,3 +49,15 @@ class CitySearch(models.Model):
     
     def __str__(self):
         return f"{self.user.username} -> {self.city.name} ({self.created})"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        # после сохранения новой записи, удаляем лишние
+        search_history = CitySearch.objects.filter(
+            user=self.user
+        ).order_by("-created")
+
+        if search_history.count() > 5:
+            oldest_record = search_history.last()
+            oldest_record.delete()
