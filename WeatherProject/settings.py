@@ -48,7 +48,15 @@ INSTALLED_APPS = [
     "weather.apps.WeatherConfig",
     "accounts.apps.AccountsConfig",
     "django_bootstrap5",
+    "rest_framework",
+    "weather_api.apps.WeatherApiConfig",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
