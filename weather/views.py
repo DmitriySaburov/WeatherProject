@@ -13,6 +13,14 @@ def index(request):
     city_name = None
     temp_now_info = None
     temp_forecast_info = None
+    search_history = None
+
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            # получаем историю поиска пользователя
+            search_history = CitySearch.objects.filter(
+                user=request.user
+            )
 
     if request.method == "POST":
         form = CityForm(request.POST)
@@ -42,8 +50,14 @@ def index(request):
             except City.DoesNotExist:
                 city = City.objects.create(name=city_name)
             
-            # обновляем историю поиска, если пользователь авторизован
+            # если пользователь авторизован
             if request.user.is_authenticated:
+                # получаем историю поиска пользователя
+                search_history = CitySearch.objects.filter(
+                    user=request.user
+                )
+
+                # обновляем историю поиска
                 city_search = CitySearch.objects.create(
                     user=request.user,
                     city=city
@@ -53,6 +67,7 @@ def index(request):
         "form": form,
         "city_name": city_name,
         "temp_now": temp_now_info,
-        "temp_forecast": temp_forecast_info
+        "temp_forecast": temp_forecast_info,
+        "search_history": search_history
     }
     return render(request, "weather/index.html", context)

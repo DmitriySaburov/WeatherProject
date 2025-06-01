@@ -3,13 +3,29 @@
 {% block title %}Погода в городе{% endblock title %}
 
 {% block content %}
-    <div id="main">
-        <div id="search">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Показать погоду" class="btn btn-primary mb-3 btn-lg">
-            </form>
+    <div id="main" class-"container">
+        <div class="row">
+            <div id="search" class="col-md-6">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Показать погоду" class="btn btn-primary mb-3 btn-lg">
+                </form>
+            </div>
+            <div id="search_history" class="col-md-6">
+                {% if request.user.is_authenticated %}
+                    {% if search_history %}
+                        <h3>Вы смотрели ранее:</h3>
+                        <ul>
+                            {% for item in search_history %}
+                                <li>{{ item.city }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <h3>История поиска пуста.</h3>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
         <div id="weather">
             {% if city_name %}
