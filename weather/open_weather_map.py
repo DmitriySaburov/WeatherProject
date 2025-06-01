@@ -22,6 +22,8 @@ def get_temp(city_name: str, forecast: bool=False) -> list|None:
         result = response.json()
         # возвращаем результат, если по названию города были получены данные, иначе возвращаем None
         if str(result["cod"]) == "200":
+            if not forecast:
+                print(result)
             return result
     except requests.exceptions.RequestException as error:
         print(f"Ошибка {error} при обращении к url: {url}")

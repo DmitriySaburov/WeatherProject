@@ -30,10 +30,11 @@ def index(request):
 
             # собираем только необходимые данные
             temp_now_info = {
-                "dt": datetime.fromtimestamp(temp_now["dt"]),
+                "dt": datetime.utcfromtimestamp(temp_now["dt"] + temp_now["timezone"]),
                 "temp": round(temp_now["main"]["temp"]),
                 "icon": temp_now["weather"][0]["icon"]
             }
+
             temp_forecast_info = []
             for item in temp_forecast["list"]:
                 item_dict = {
